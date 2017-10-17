@@ -4,19 +4,19 @@
 
 
 var mongoose = require('mongoose');
-const User = require('../models/user.model');
+const DataModel = require('../models/user.model');
 
 exports.create = function (req,res,next) {
-    const user = new User(req.body);
+    const dataModel = new DataModel(req.body);
 
-    user.save().then(data=>{
+    dataModel.save().then(data=>{
         res.json(data)
     })
 }
 
 exports.get = function (req, res, next) {
     var id  = req.params.id;
-    User.findById(id, function (err, data) {
+    DataModel.findById(id, function (err, data) {
         res.json(data);
     })
 }
@@ -25,7 +25,7 @@ exports.update = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;
 
-    User.findByIdAndUpdate(id, {$set:req.body}, {new:false}).then(user=>{
+    DataModel.findByIdAndUpdate(id, {$set:req.body}, {new:false}).then(user=>{
         //user是修改前的数据
         res.json(user);
     })
@@ -35,7 +35,7 @@ exports.remove = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;
 
-    User.findByIdAndRemove(id, function (err, data) {
+    DataModel.findByIdAndRemove(id, function (err, data) {
         if (err) {
             console.log(err);
             return
@@ -47,7 +47,7 @@ exports.remove = function (req, res, next) {
 
 exports.list = function (req, res, next) {
     var page = (req.body.page)?req.body.page : 1;
-    var limit = (req.body.limit)?req.body.limit : 10;
+    var rows = (req.body.rows)?req.body.rows : 10;
 
     var queryCondition = {};
     if (req.body.name && req.body.name.trim().length>0) {
@@ -58,12 +58,21 @@ exports.list = function (req, res, next) {
         }
     };
 
-
-    User.paginate(queryCondition, { page: parseInt(page), limit: parseInt(limit) }, function(err, result) {
+    DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
         res.json(result);
     });
 
+}
 
+exports.deletes = function (req, res, next) {
+    var ids = req.body.ids;
+    if (ids.length>0) {
+        DataModel.remove({_id:{$in:ids}}).then(data=>{
+            res.json({"msg":"delete success","status":200});
+        })
+    }else{
+        res.json({"msg":"delete fail","status":404});
+    };
 }

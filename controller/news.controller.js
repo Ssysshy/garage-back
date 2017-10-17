@@ -3,25 +3,20 @@
  */
 
 
-/**
- * Created by aliez on 2017/10/17.
- */
-
-
 var mongoose = require('mongoose');
-const News = require('../models/news.model');
+const DataModel = require('../models/news.model');
 
 exports.create = function (req,res,next) {
-    const news = new News(req.body);
+    const dataModel = new DataModel(req.body);
 
-    news.save().then(data=>{
+    dataModel.save().then(data=>{
         res.json(data)
     })
 }
 
 exports.get = function (req, res, next) {
     var id  = req.params.id;
-    News.findById(id, function (err, data) {
+    DataModel.findById(id, function (err, data) {
         res.json(data);
     })
 }
@@ -30,7 +25,7 @@ exports.update = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;
 
-    News.findByIdAndUpdate(id, {$set:req.body}, {new:false}).then(user=>{
+    DataModel.findByIdAndUpdate(id, {$set:req.body}, {new:false}).then(user=>{
         //user是修改前的数据
         res.json(user);
     })
@@ -40,7 +35,7 @@ exports.remove = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;
 
-    News.findByIdAndRemove(id, function (err, data) {
+    DataModel.findByIdAndRemove(id, function (err, data) {
         if (err) {
             console.log(err);
             return
@@ -64,7 +59,7 @@ exports.list = function (req, res, next) {
     };
 
 
-    News.paginate(queryCondition, { page: parseInt(page), limit: parseInt(limit) }, function(err, result) {
+    DataModel.paginate(queryCondition, { page: parseInt(page), limit: parseInt(limit) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
         res.json(result);

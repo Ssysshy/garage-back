@@ -9,16 +9,13 @@
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 
-var schema = mongoose.Schema;
-
-
-var NewsSchema = new schema({
+var schema =new mongoose.Schema({
     name:String,
     password:String,
     date: { type: Date, default: Date.now },
 });
 
+schema.plugin(mongoosePaginate);
+var News = mongoose.model('News',schema,'news');
 
-NewsSchema.plugin(mongoosePaginate);
-
-module.exports = mongoose.model('News',NewsSchema,'news');
+module.exports = News;
