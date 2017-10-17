@@ -40,7 +40,7 @@ exports.remove = function (req, res, next) {
             console.log(err);
             return
         }else{
-            res.json(data);
+            res.json({"msg":"delete success","status":200});
         };
     })
 }
