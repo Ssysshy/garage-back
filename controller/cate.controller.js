@@ -32,7 +32,7 @@ exports.update = function (req, res, next) {
 
     DataModel.findByIdAndUpdate(id, {$set:req.body}, {new:false}).then(user=>{
         //user是修改前的数据
-        res.json(user);
+        res.json({'status':200});
     })
 }
 
