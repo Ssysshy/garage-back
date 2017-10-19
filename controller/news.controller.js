@@ -86,9 +86,9 @@ exports.list = function (req, res, next) {
 }
 
 exports.deletes = function (req, res, next) {
-    var ids = req.body.ids;
+    var ids = req.body['ids[]'];
     if (ids.length>0) {
-        DataModel.remove({_id:{$in:ids.split(',')}}).then(data=>{
+        DataModel.remove({_id:{$in:ids}}).then(data=>{
             res.json({"msg":"delete success","status":200});
         })
     }else{
