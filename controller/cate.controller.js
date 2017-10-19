@@ -26,6 +26,17 @@ exports.get = function (req, res, next) {
     })
 }
 
+exports.finds = function (req, res, next) {
+    // console.log(req.body);
+    var data = req.body;
+    DataModel.findOne(data,function(err,doc){
+        var path = doc.path;
+        var sid = doc._id;
+        var npath = path+','+sid;
+        res.json(npath);
+    });
+}
+
 exports.update = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;

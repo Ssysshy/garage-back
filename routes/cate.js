@@ -18,4 +18,6 @@ router.put('/data/:id',dataCtrl.update);
 router.delete('/data/:id',dataCtrl.remove);
 router.get('/list',dataCtrl.list);
 
+router.post('/finds',dataCtrl.finds);
+
 module.exports = router;

@@ -14,9 +14,15 @@ var dataCtrl = require('../controller/news.controller');
 
 router.post('/data',dataCtrl.create);
 router.get('/data/:id',dataCtrl.get);
-router.post('/data/:id',dataCtrl.update);
+router.put('/data/:id',dataCtrl.update);
+
 router.delete('/data/:id',dataCtrl.remove);
+
 router.post('/list',dataCtrl.list);
+router.post('/deletes',dataCtrl.deletes);
+
+router.post('/finds',dataCtrl.finds);
+
 
 
 module.exports = router;

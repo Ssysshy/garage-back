@@ -3,14 +3,16 @@
  */
 
 
+
 var mongoose = require('mongoose');
 const DataModel = require('../models/news.model');
 
 exports.create = function (req,res,next) {
+    console.log(req.body);
     const dataModel = new DataModel(req.body);
 
     dataModel.save().then(data=>{
-        res.json(data)
+        res.json(data);
     })
 }
 
@@ -19,6 +21,25 @@ exports.get = function (req, res, next) {
     DataModel.findById(id, function (err, data) {
         res.json(data);
     })
+}
+
+exports.finds = function (req, res, next) {
+    var page = (req.body.page)?req.body.page : 1;
+    var rows = (req.body.rows)?req.body.rows : 10;
+
+    var queryCondition = {};
+    if (req.body.path && req.body.path.trim().length>0) {
+        var path = req.body.path;
+        queryCondition = {
+            'path':new RegExp(path,'i')
+        }
+    };
+
+    DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
+        result.rows = result.docs;
+        delete result.docs;
+        res.json(result);
+    });
 }
 
 exports.update = function (req, res, next) {
@@ -40,30 +61,37 @@ exports.remove = function (req, res, next) {
             console.log(err);
             return
         }else{
-            res.json(data);
+            res.json({"msg":"delete success","status":200});
         };
     })
 }
 
 exports.list = function (req, res, next) {
     var page = (req.body.page)?req.body.page : 1;
-    var limit = (req.body.limit)?req.body.limit : 10;
+    var rows = (req.body.rows)?req.body.rows : 10;
 
     var queryCondition = {};
-    if (req.body.name && req.body.name.trim().length>0) {
-        var name = req.body.name;
-
+    if (req.body.title && req.body.title.trim().length>0) {
+        var title = req.body.title;
         queryCondition = {
-            'name':new RegExp(name,'i')
+            'title':new RegExp(title,'i')
         }
     };
 
-
-    DataModel.paginate(queryCondition, { page: parseInt(page), limit: parseInt(limit) }, function(err, result) {
+    DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
         res.json(result);
     });
+}
 
-
+exports.deletes = function (req, res, next) {
+    var ids = req.body.ids;
+    if (ids.length>0) {
+        DataModel.remove({_id:{$in:ids}}).then(data=>{
+            res.json({"msg":"delete success","status":200});
+        })
+    }else{
+        res.json({"msg":"delete fail","status":404});
+    };
 }
