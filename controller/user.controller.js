@@ -8,7 +8,6 @@ const DataModel = require('../models/user.model');
 
 exports.create = function (req,res,next) {
     const dataModel = new DataModel(req.body);
-
     dataModel.save().then(data=>{
         res.json(data)
     })
