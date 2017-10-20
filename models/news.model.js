@@ -12,6 +12,7 @@ var mongoosePaginate = require('mongoose-paginate');
 var schema =new mongoose.Schema({
     title:String,
     path:String,
+    CommentNum:Number,
     date: { type: Date, default: Date.now },
 });
 

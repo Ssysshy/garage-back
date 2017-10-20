@@ -7,6 +7,7 @@
 var mongoose = require('mongoose');
 const DataModel = require('../models/news.model');
 const DataModelComment = require('../models/comment.model');
+var async = require('async');
 
 exports.create = function (req,res,next) {
     console.log(req.body);
@@ -81,21 +82,35 @@ exports.list = function (req, res, next) {
 
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         var arr = result.docs;
-        var newarr = [];
-        var arr1 = []
         var leng = result.docs.length;
-        for (var i = 0; i < leng; i++) {
-            newarr.push(arr[i]._id)
-        }
+        // for (var i = 0; i < leng; i++) {
+        //     DataModelComment.find({id:arr[i]._id}).then(data=>{
+        //         setTimeout(function () {
+        //             console.log(data);
+        //         },300)
+        //     })
+        // }
         // DataModelComment.find({id:{$in:newarr}}).count(function (err,count) {
         //     console.log(count);
         // })
-        DataModelComment.find({id:'59e854ec7e5a560d169f9946'}).then(data=>{
-            console.log(data);
+
+        async.map(result.docs,function (news,callback) {
+
+            console.log(news);
+            DataModelComment.count({id:news._id},function (err,count) {
+                if (err) {
+                    return;
+                }else{
+                    news.CommentNum = count;
+                    callback();
+                };
+            })
+        },function (err) {
+            result.rows = result.docs;
+            delete result.docs;
+            res.json(result);
+            // console.log(result);
         })
-        result.rows = result.docs;
-        delete result.docs;
-        res.json(result);
     });
 }
 
