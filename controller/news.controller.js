@@ -93,7 +93,6 @@ exports.list = function (req, res, next) {
         DataModelComment.find({id:'59e854ec7e5a560d169f9946'}).then(data=>{
             console.log(data);
         })
-        // console.log(result.docs);
         result.rows = result.docs;
         delete result.docs;
         res.json(result);
