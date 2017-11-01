@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 const DataModel = require('../models/comment.model');
 
 exports.create = function (req,res,next) {
-    console.log(req.body);
+    // console.log(req.body);
     const dataModel = new DataModel(req.body);
 
     dataModel.save().then(data=>{
@@ -73,6 +73,14 @@ exports.list = function (req, res, next) {
         }
     };
 
+    if (req.body.id && req.body.id.toString().trim().length>0) {
+        var id = req.body.id;
+        queryCondition = Object.assign(queryCondition,{
+            'id':req.body.id
+        })
+    };
+    
+    console.log(queryCondition);
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
@@ -80,10 +88,21 @@ exports.list = function (req, res, next) {
     });
 }
 
+// exports.deletes = function (req, res, next) {
+//     var ids = req.body['ids[]'];
+//     if (ids.length>0) {
+//         DataModel.remove({_id:{$in:ids}}).then(data=>{
+//             res.json({"msg":"delete success","status":200});
+//         })
+//     }else{
+//         res.json({"msg":"delete fail","status":404});
+//     };
+// }
+
 exports.deletes = function (req, res, next) {
-    var ids = req.body['ids[]'];
+    var ids = req.body.ids;
     if (ids.length>0) {
-        DataModel.remove({_id:{$in:ids}}).then(data=>{
+        DataModel.remove({_id:{$in:ids.split(',')}}).then(data=>{
             res.json({"msg":"delete success","status":200});
         })
     }else{

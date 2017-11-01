@@ -13,6 +13,8 @@ var schema =new mongoose.Schema({
     title:String,
     path:String,
     CommentNum:Number,
+    content:String,
+    typeValue:Number,
     date: { type: Date, default: Date.now },
 });
 

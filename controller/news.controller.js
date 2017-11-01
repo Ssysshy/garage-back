@@ -10,7 +10,6 @@ const DataModelComment = require('../models/comment.model');
 var async = require('async');
 
 exports.create = function (req,res,next) {
-    console.log(req.body);
     const dataModel = new DataModel(req.body);
 
     dataModel.save().then(data=>{
@@ -36,7 +35,6 @@ exports.finds = function (req, res, next) {
             'path':new RegExp(path,'i')
         }
     };
-
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;
@@ -80,23 +78,27 @@ exports.list = function (req, res, next) {
         }
     };
 
+    if (req.body.typeValue && req.body.typeValue.toString().trim().length>0) {
+        var typeValue = req.body.typeValue;
+
+        queryCondition = Object.assign(queryCondition,{
+            'typeValue':req.body.typeValue
+        })
+    };
+
+    if (req.body.title && req.body.title.trim().length>0) {
+        var title = req.body.title;
+        queryCondition = {
+            'title':new RegExp(title,'i')
+        }
+    };
+
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         var arr = result.docs;
         var leng = result.docs.length;
-        // for (var i = 0; i < leng; i++) {
-        //     DataModelComment.find({id:arr[i]._id}).then(data=>{
-        //         setTimeout(function () {
-        //             console.log(data);
-        //         },300)
-        //     })
-        // }
-        // DataModelComment.find({id:{$in:newarr}}).count(function (err,count) {
-        //     console.log(count);
-        // })
 
         async.map(result.docs,function (news,callback) {
 
-            console.log(news);
             DataModelComment.count({id:news._id},function (err,count) {
                 if (err) {
                     return;
@@ -114,10 +116,23 @@ exports.list = function (req, res, next) {
     });
 }
 
+
+//对于没有转字符串类型的对象
+// exports.deletes = function (req, res, next) {
+//     var ids = req.body['ids[]'];
+//     if (ids.length>0) {
+//         DataModel.remove({_id:{$in:ids}}).then(data=>{
+//             res.json({"msg":"delete success","status":200});
+//         })
+//     }else{
+//         res.json({"msg":"delete fail","status":404});
+//     };
+// }
+
 exports.deletes = function (req, res, next) {
-    var ids = req.body['ids[]'];
+    var ids = req.body.ids;
     if (ids.length>0) {
-        DataModel.remove({_id:{$in:ids}}).then(data=>{
+        DataModel.remove({_id:{$in:ids.split(',')}}).then(data=>{
             res.json({"msg":"delete success","status":200});
         })
     }else{

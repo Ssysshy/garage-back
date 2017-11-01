@@ -86,7 +86,6 @@ function reverseTree(data, pid) {
             };
         };
     }
-
     return result;
 }
 
@@ -97,7 +96,18 @@ exports.list = function (req, res, next) {
             return
         }else{
             var reTree = reverseTree(data,null);
+            res.json(reTree);
+        };
+    })
+}
 
+exports.device = function (req, res, next) {
+    DataModel.find({typeValue:req.body.typeValue},function (err,data) {
+        if (err) {
+            console.log(err);
+            return
+        }else{
+            var reTree = reverseTree(data,null);
             res.json(reTree);
         };
     })

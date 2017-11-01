@@ -28,6 +28,8 @@ var mongoosePaginate = require('mongoose-paginate');
 var schema =new mongoose.Schema({
     name:String,
     password:String,
+    city:String,
+    gender:String,
     date: { type: Date, default: Date.now },
 });
 
