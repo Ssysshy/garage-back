@@ -86,13 +86,6 @@ exports.list = function (req, res, next) {
         })
     };
 
-    if (req.body.title && req.body.title.trim().length>0) {
-        var title = req.body.title;
-        queryCondition = {
-            'title':new RegExp(title,'i')
-        }
-    };
-
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         var arr = result.docs;
         var leng = result.docs.length;
