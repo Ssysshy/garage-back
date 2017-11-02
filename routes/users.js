@@ -17,4 +17,6 @@ router.delete('/data/:id',dataCtrl.remove);
 router.post('/list',dataCtrl.list);
 router.post('/deletes',dataCtrl.deletes);
 
+router.post('/data/checklogin',dataCtrl.checklogin);
+
 module.exports = router;

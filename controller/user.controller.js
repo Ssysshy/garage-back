@@ -20,6 +20,19 @@ exports.get = function (req, res, next) {
     })
 }
 
+exports.checklogin= function (req, res, next) {
+    var name  = req.body.name;
+    var password  = req.body.password;
+    var data = {name:name,password:password};
+    DataModel.find(data, function (err, data) {
+        if (data.length>0) {
+            res.json(data);
+        }else{
+            res.json([{'msg':'用户名或密码错误','status':404,name:''}]);
+        };
+    })
+}
+
 exports.update = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;

@@ -16,6 +16,7 @@ var schema =new mongoose.Schema({
     content:String,
     typeValue:Number,
     date: { type: Date, default: Date.now },
+    thumb:Object
 });
 
 schema.plugin(mongoosePaginate);
