@@ -9,7 +9,7 @@ var materializedPlugin = require('mongoose-materialized');
 var schema =new mongoose.Schema({
     text:String,
     title:String,
-    typeValue:Number
+    typeValue:Number,
 });
 
 schema.plugin(materializedPlugin);

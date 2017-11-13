@@ -1,15 +1,15 @@
 /**
- * Created by aliez on 2017/10/17.
+ * Created by aliez on 2017/11/13.
  */
 
 
 
 var mongoose = require('mongoose');
-const DataModel = require('../models/news.model');
-const DataModelComment = require('../models/comment.model');
+const DataModel = require('../models/product.model');
 var async = require('async');
 
 exports.create = function (req,res,next) {
+    console.log(req.body)
     const dataModel = new DataModel(req.body);
 
     dataModel.save().then(data=>{
@@ -66,7 +66,9 @@ exports.remove = function (req, res, next) {
     })
 }
 
+
 exports.list = function (req, res, next) {
+    console.log(req.body)
     var page = (req.body.page)?req.body.page : 1;
     var rows = (req.body.rows)?req.body.rows : 10;
 
@@ -87,32 +89,18 @@ exports.list = function (req, res, next) {
     };
 
     if (req.body.ids && req.body.ids.length>0) {
-        
+
         queryCondition = Object.assign(queryCondition,{
             cateId:{$in:req.body.ids}
         })
     };
 
+
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
-        var arr = result.docs;
-        var leng = result.docs.length;
 
-        async.map(result.docs,function (news,callback) {
-
-            DataModelComment.count({id:news._id},function (err,count) {
-                if (err) {
-                    return;
-                }else{
-                    news.CommentNum = count;
-                    callback();
-                };
-            })
-        },function (err) {
-            result.rows = result.docs;
-            delete result.docs;
-            res.json(result);
-            // console.log(result);
-        })
+        result.rows = result.docs;
+        delete result.docs;
+        res.json(result);
     });
 }
 

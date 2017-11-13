@@ -27,15 +27,30 @@ exports.get = function (req, res, next) {
 }
 
 exports.finds = function (req, res, next) {
-    // console.log(req.body);
+    console.log(req.body);
     var data = req.body;
-    DataModel.findOne(data,function(err,doc){
-        var path = doc.path;
-        var sid = doc._id;
-        var npath = path+','+sid;
-        res.json(npath);
+    DataModel.find(data,function(err,doc){
+        res.json(doc);
     });
 }
+
+exports.findIds = function (req, res, next) {
+	var id = req.body.id;
+	var ids=[];
+	DataModel.findOne({_id: id}, function(err, doc) {
+		if(doc){
+			doc.getChildren().then(function(docs){
+				docs.push(doc);
+				
+				for (var i in docs) {
+					ids.push(docs[i]._id);
+				}
+				res.json(ids);
+			});
+		}
+	})
+}
+
 
 exports.update = function (req, res, next) {
     //req.body是一个{}
@@ -90,6 +105,7 @@ function reverseTree(data, pid) {
 }
 
 exports.list = function (req, res, next) {
+    console.log(req.params)
     DataModel.find({},function (err,data) {
         if (err) {
             console.log(err);

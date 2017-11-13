@@ -26,7 +26,8 @@ exports.upload = function (req,res,next) {
         if (err) {
             console.log(err);
         }else{
-            req.file.typeValue = Number(req.params.typeValue);
+            req.file.cateId = req.params.cateId;
+            console.log(req.file)
             const dataModel = new DataModel(req.file);
             res.json(req.file);
             dataModel.save().then(data=>{
@@ -54,6 +55,13 @@ exports.list = function (req, res, next) {
 
         queryCondition = Object.assign(queryCondition,{
             'typeValue':req.body.typeValue
+        })
+    };
+
+    if (req.body.ids && req.body.ids.length>0) {
+        
+        queryCondition = Object.assign(queryCondition,{
+            cateId:{$in:req.body.ids}
         })
     };
 

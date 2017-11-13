@@ -17,8 +17,10 @@ router.get('/data/:id',dataCtrl.get);
 router.put('/data/:id',dataCtrl.update);
 router.delete('/data/:id',dataCtrl.remove);
 router.get('/list',dataCtrl.list);
-
 router.post('/finds',dataCtrl.finds);
+
+router.post('/findids',dataCtrl.findIds);
+
 router.post('/device',dataCtrl.device);
 
 module.exports = router;

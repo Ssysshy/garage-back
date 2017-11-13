@@ -12,6 +12,7 @@ var schema =new mongoose.Schema({
     encoding: String,
     mimetype: String,
     destination: String,
+    cateId:String,
     filename: String,
     path: String,
     size: Number,
