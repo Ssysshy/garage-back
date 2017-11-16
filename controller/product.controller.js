@@ -26,7 +26,7 @@ exports.get = function (req, res, next) {
 
 exports.finds = function (req, res, next) {
     var page = (req.body.page)?req.body.page : 1;
-    var rows = (req.body.rows)?req.body.rows : 10;
+    var rows = (req.body.rows)?req.body.rows : 5;
 
     var queryCondition = {};
     if (req.body.path && req.body.path.trim().length>0) {
@@ -70,7 +70,7 @@ exports.remove = function (req, res, next) {
 exports.list = function (req, res, next) {
     console.log(req.body)
     var page = (req.body.page)?req.body.page : 1;
-    var rows = (req.body.rows)?req.body.rows : 10;
+    var rows = (req.body.rows)?req.body.rows : 5;
 
     var queryCondition = {};
     if (req.body.title && req.body.title.trim().length>0) {
@@ -87,15 +87,14 @@ exports.list = function (req, res, next) {
             'typeValue':req.body.typeValue
         })
     };
-
+    
     if (req.body.ids && req.body.ids.length>0) {
-
+        
         queryCondition = Object.assign(queryCondition,{
             cateId:{$in:req.body.ids}
         })
     };
-
-
+    console.log(queryCondition);
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
 
         result.rows = result.docs;
