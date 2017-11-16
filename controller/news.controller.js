@@ -87,6 +87,14 @@ exports.list = function (req, res, next) {
         })
     };
 
+    if (req.body._id && req.body._id.toString().trim().length>0) {
+        var _id = req.body._id;
+
+        queryCondition = Object.assign(queryCondition,{
+            '_id':req.body._id
+        })
+    };
+
     if (req.body.ids && req.body.ids.length>0) {
         
         queryCondition = Object.assign(queryCondition,{
