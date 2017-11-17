@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
+var moment = require('moment');
 
 var schema =new mongoose.Schema({
     title:String,
@@ -11,7 +12,7 @@ var schema =new mongoose.Schema({
     description:String,
     typeValue:Number,
     cateId:String,
-    date: { type: Date, default: Date.now },
+    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
     thumb:Object
 });
 

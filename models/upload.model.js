@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
+var moment = require('moment');
 
 var schema =new mongoose.Schema({
     fieldname: String,
@@ -16,7 +17,7 @@ var schema =new mongoose.Schema({
     filename: String,
     path: String,
     size: Number,
-    date: { type: Date, default: Date.now },
+    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
     typeValue:Number
 });
 

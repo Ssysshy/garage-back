@@ -4,14 +4,15 @@
 
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
+var moment = require('moment');
 
-var schema =new mongoose.Schema({
-    id:String,
-    comment:String,
-    commenter:String,
-    date: { type: Date, default: Date.now },
+var schema = new mongoose.Schema({
+    id: String,
+    comment: String,
+    commenter: String,
+    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
 });
 
 schema.plugin(mongoosePaginate);
-var Comments = mongoose.model('Comments',schema,'comments');
+var Comments = mongoose.model('Comments', schema, 'comments');
 module.exports = Comments;
