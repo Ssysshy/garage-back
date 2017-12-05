@@ -45,7 +45,8 @@ exports.findIds = function (req, res, next) {
 				for (var i in docs) {
 					ids.push(docs[i]._id);
 				}
-				res.json(ids);
+                res.json(ids);
+                console.log(ids)
 			});
 		}
 	})
