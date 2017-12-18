@@ -17,7 +17,7 @@ var schema =new mongoose.Schema({
     filename: String,
     path: String,
     size: Number,
-    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
+    date: { type: String, default: moment().format("YYYY-MM-DD HH:MM:SS") },
     typeValue:Number
 });
 

@@ -13,7 +13,7 @@ var schema =new mongoose.Schema({
     content:String,
     cateId:String,
     typeValue:Number,
-    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
+    date: { type: String, default: moment().format("YYYY-MM-DD HH:MM:SS") },
     thumb:Object
 });
 

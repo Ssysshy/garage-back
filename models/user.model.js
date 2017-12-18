@@ -29,9 +29,9 @@ var moment = require('moment');
 var schema =new mongoose.Schema({
     name:String,
     password:String,
-    city:String,
+    carInfo:String,
     gender:String,
-    date: { type: Date, default: moment().format("YYYY-MM-DD HH:MM:SS") },
+    date: { type: String, default: moment().format("YYYY-MM-DD HH:MM:SS") },
 });
 
 schema.plugin(mongoosePaginate);
