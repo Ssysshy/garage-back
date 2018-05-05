@@ -8,9 +8,10 @@ var moment = require('moment');
 
 var schema = new mongoose.Schema({
   number: Number,
-  occupy: String,
+  lasttime: Number,
   deadtime: String,
-  date: {type: String, default: moment().format("YYYY-MM-DD HH:MM:SS")},
+  occupy: String,
+  date: {type: String, default: new Date().getTime()},
 });
 
 schema.plugin(mongoosePaginate);

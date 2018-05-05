@@ -6,7 +6,8 @@
 var mongoose = require('mongoose');
 const DataModel = require('../models/user.model');
 
-exports.create = function (req,res,next) {
+exports.create = function (req, res, next) {
+    console.log(req, 1);
     const dataModel = new DataModel(req.body);
     dataModel.save().then(data=>{
         res.json(data)
@@ -46,7 +47,6 @@ exports.update = function (req, res, next) {
 exports.remove = function (req, res, next) {
     //req.body是一个{}
     const id = req.params.id;
-
     DataModel.findByIdAndRemove(id, function (err, data) {
         if (err) {
             console.log(err);
@@ -75,7 +75,6 @@ exports.list = function (req, res, next) {
         delete result.docs;
         res.json(result);
     });
-
 }
 
 exports.deletes = function (req, res, next) {
@@ -88,3 +87,4 @@ exports.deletes = function (req, res, next) {
         res.json({"msg":"delete fail","status":404});
     };
 }
+

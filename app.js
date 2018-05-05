@@ -13,6 +13,7 @@ var cate = require('./routes/cate');
 var comment = require('./routes/comment');
 var upload = require('./routes/upload');
 var product = require('./routes/product');
+var occupy = require('./routes/occupy');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/cate', cate);
 app.use('/comment', comment);
 app.use('/upload', upload);
 app.use('/product', product);
+app.use('/occupy', occupy);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
