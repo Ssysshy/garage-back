@@ -1,2 +1,8 @@
 node_modules/
 uploads/
+.idea/
+.DS_Store
+run/
+logs/
+npm-debug.log
+coverage/
