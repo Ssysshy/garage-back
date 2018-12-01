@@ -30,7 +30,7 @@ exports.upload = function (req,res,next) {
             console.log(req.file)
             const dataModel = new DataModel(req.file);
             res.json(req.file);
-            dataModel.save().then(data=>{
+            dataModel.save().then(data => {
                 res.json(data);
             })
         };
@@ -59,7 +59,7 @@ exports.list = function (req, res, next) {
     };
 
     if (req.body.ids && req.body.ids.length>0) {
-        
+
         queryCondition = Object.assign(queryCondition,{
             cateId:{$in:req.body.ids}
         })
