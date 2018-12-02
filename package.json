@@ -3,17 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "babel-node ./bin/www --presets env,stage-2"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "config": "^1.26.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "moment": "^2.19.2",
-    "mongoose": "^4.12.3",
-    "mongoose-materialized": "^0.1.9",
+    "mongoose": "^4.11.10",
+    "mongoose-materialized": "^0.2.0",
     "mongoose-paginate": "^5.0.3",
     "morgan": "~1.9.0",
     "multer": "^1.3.0",
@@ -21,6 +22,9 @@
   },
   "devDependencies": {
     "async": "^2.5.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0"
   }

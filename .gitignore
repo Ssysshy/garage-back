@@ -6,3 +6,4 @@ run/
 logs/
 npm-debug.log
 coverage/
+config/

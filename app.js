@@ -1,24 +1,24 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var news = require('./routes/news');
-var cate = require('./routes/cate');
-var comment = require('./routes/comment');
-var upload = require('./routes/upload');
-var product = require('./routes/product');
-var occupy = require('./routes/occupy');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const news = require('./routes/news');
+const cate = require('./routes/cate');
+const comment = require('./routes/comment');
+const upload = require('./routes/upload');
+const product = require('./routes/product');
+const occupy = require('./routes/occupy');
 
-var app = express();
+const app = express();
 
 mongoose.Promise = global.Promise;
-var mongoClient = mongoose.createConnection('mongodb://root:Napster0328!@118.25.195.198:8811/docker?authSource=admin', { useMongoClient: true });
+const mongoClient = mongoose.connect('mongodb://root:Napster0328!@118.25.195.198:8811/docker', { useMongoClient: true, authSource: 'admin' });
 
 mongoClient.on('connected', function () {
   console.log('Mongoose connected to ' + '1');
