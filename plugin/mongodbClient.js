@@ -3,7 +3,6 @@ const mongodbConfig = require('config').get('mongodb');
 
 mongoose.Promise = global.Promise;
 
-
 /**
  * 配置 MongoDb options
  */
@@ -43,3 +42,39 @@ function getMongoUri() {
 
   return mongoUri;
 }
+
+/**
+ * 创建 Mongo 连接，内部维护了一个连接池，全局共享
+ */
+let mongoClient = mongoose.connect(getMongoUri(), getMongoOptions());
+
+/**
+ * 关闭 Mongo 连接
+ */
+function close() {
+  mongoClient.close();
+}
+
+/**
+ * Mongo 连接成功回调
+ */
+mongoClient.on('connected', function () {
+  console.log('Mongoose connected to ' + getMongoUri());
+});
+/**
+ * Mongo 连接失败回调
+ */
+mongoClient.on('error', function (err) {
+  console.log('Mongoose connection error: ' + err);
+});
+/**
+ * Mongo 关闭连接回调
+ */
+mongoClient.on('disconnected', function () {
+  console.log('Mongoose disconnected');
+});
+
+module.exports = {
+  mongoClient: mongoClient,
+  close: close,
+};

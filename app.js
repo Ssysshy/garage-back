@@ -4,7 +4,6 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -15,18 +14,8 @@ const upload = require('./routes/upload');
 const product = require('./routes/product');
 const occupy = require('./routes/occupy');
 
+import './plugin/mongodbClient';
 const app = express();
-
-mongoose.Promise = global.Promise;
-const mongoClient = mongoose.connect('mongodb://root:Napster0328!@118.25.195.198:8811/docker', { useMongoClient: true, authSource: 'admin' });
-
-mongoClient.on('connected', function () {
-  console.log('Mongoose connected to ' + '1');
-});
-
-mongoClient.on('error', function (err) {
-  console.log('Mongoose connection error: ' + err);
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
