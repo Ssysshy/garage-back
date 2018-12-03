@@ -5,18 +5,13 @@
 const DataModel = require('../models/user.model');
 
 exports.create = function (req, res, next) {
-  console.log(req.body, 1);
   const dataModel = new DataModel(req.body);
-  console.log(dataModel);
   dataModel.save().then(function (err, data) {
-    console.log(err);
-    console.log(data);
     res.json(data)
   })
 }
 
 exports.get = function (req, res, next) {
-  console.log(req);
   var id = req.params.id;
   DataModel.findById(id, function (err, data) {
     res.json(data);
@@ -40,7 +35,6 @@ exports.checklogin = function (req, res, next) {
 exports.update = function (req, res, next) {
   //req.body是一个{}
   const id = req.params.id;
-
   DataModel.findByIdAndUpdate(id, {$set: req.body}, {new: false}).then(function (user) {
     //user是修改前的数据
     res.json(user);
