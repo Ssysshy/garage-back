@@ -41,12 +41,11 @@ exports.findIds = function (req, res, next) {
 		if(doc){
 			doc.getChildren().then(function(docs){
 				docs.push(doc);
-				
 				for (var i in docs) {
 					ids.push(docs[i]._id);
 				}
-                res.json(ids);
-                console.log(ids)
+        res.json(ids);
+        console.log(ids)
 			});
 		}
 	})

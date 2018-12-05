@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -13,6 +12,7 @@ const comment = require('./routes/comment');
 const upload = require('./routes/upload');
 const product = require('./routes/product');
 const occupy = require('./routes/occupy');
+const disk = require('./routes/disk');
 
 import './plugin/mongodbClient';
 const app = express();
@@ -48,6 +48,7 @@ app.use('/comment', comment);
 app.use('/upload', upload);
 app.use('/product', product);
 app.use('/occupy', occupy);
+app.use('/disk', disk);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
