@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 const DataModel = require('../models/comment.model');
 
 exports.create = function (req,res,next) {
-    // console.log(req.body);
     const dataModel = new DataModel(req.body);
 
     dataModel.save().then(data=>{
@@ -79,8 +78,7 @@ exports.list = function (req, res, next) {
             'id':req.body.id
         })
     };
-    
-    console.log(queryCondition);
+
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;

@@ -27,7 +27,6 @@ exports.upload = function (req,res,next) {
             console.log(err);
         }else{
             req.file.cateId = req.params.cateId;
-            console.log(req.file)
             const dataModel = new DataModel(req.file);
             res.json(req.file);
             dataModel.save().then(data => {
@@ -65,7 +64,6 @@ exports.list = function (req, res, next) {
         })
     };
 
-    console.log(queryCondition);
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         result.rows = result.docs;
         delete result.docs;

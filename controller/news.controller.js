@@ -67,7 +67,6 @@ exports.remove = function (req, res, next) {
 }
 
 exports.list = function (req, res, next) {
-    console.log(req.body);
     var page = (req.body.page)?req.body.page : 1;
     var rows = (req.body.rows)?req.body.rows : 5;
 
@@ -96,13 +95,13 @@ exports.list = function (req, res, next) {
     };
 
     if (req.body.ids && req.body.ids.length>0) {
-        
+
         queryCondition = Object.assign(queryCondition,{
             cateId:{$in:req.body.ids}
         })
     };
 
-    
+
 
     DataModel.paginate(queryCondition, {sort: { date: -1 }, page: parseInt(page), limit: parseInt(rows) }, function(err, result) {
         var arr = result.docs;
@@ -122,7 +121,6 @@ exports.list = function (req, res, next) {
             result.rows = result.docs;
             delete result.docs;
             res.json(result);
-            // console.log(result);
         })
     });
 }

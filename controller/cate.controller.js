@@ -27,7 +27,6 @@ exports.get = function (req, res, next) {
 }
 
 exports.finds = function (req, res, next) {
-    console.log(req.body);
     var data = req.body;
     DataModel.find(data,function(err,doc){
         res.json(doc);
@@ -45,7 +44,6 @@ exports.findIds = function (req, res, next) {
 					ids.push(docs[i]._id);
 				}
         res.json(ids);
-        console.log(ids)
 			});
 		}
 	})
@@ -70,7 +68,6 @@ exports.remove = function (req, res, next) {
         if (doc) {
             ids.push(id);
             doc.getChildren().then(function(docs){
-                console.log(docs);
                 for (var i = 0; i < docs.length; i++) {
                     ids.push(docs[i]._id);
                 }
@@ -105,7 +102,6 @@ function reverseTree(data, pid) {
 }
 
 exports.list = function (req, res, next) {
-    console.log(req.params)
     DataModel.find({},function (err,data) {
         if (err) {
             console.log(err);

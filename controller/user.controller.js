@@ -55,7 +55,6 @@ exports.remove = function (req, res, next) {
 };
 
 exports.list = function (req, res, next) {
-  console.log(req.body);
   var page = (req.body.page) ? req.body.page : 1;
   var rows = (req.body.rows) ? req.body.rows : 10;
 
