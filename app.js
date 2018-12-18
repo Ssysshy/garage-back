@@ -1,7 +1,13 @@
 const express = require('express');
 const createError = require('http-errors');
 const path = require('path');
+
+// 日志记录
 const logger = require('morgan');
+const fs = require('fs');
+const FileStreamRotator = require('file-stream-rotator');
+
+// cookie储存
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -20,16 +26,29 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('html', require('ejs').__express);
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+
+// logger path set
+const logDirectory = __dirname + '/logs';
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+// create a rotating write stream
+const accessLogStream = FileStreamRotator.getStream({
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+});
+// setup the logger
+app.use(logger('combined', {stream: accessLogStream}));
 
 
 app.all('*', function (req, res, next) {
