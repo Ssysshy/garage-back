@@ -2,8 +2,12 @@
   "name": "garage-back",
   "version": "0.0.0",
   "private": true,
+  "port": {
+    "dev": "3000",
+    "start": "8080"
+  },
   "scripts": {
-    "dev": "babel-node ./bin/www --presets env,stage-2 --port=8080",
+    "dev": "babel-node ./bin/www --presets env,stage-2",
     "start": "babel-node ./bin/www --presets env,stage-2"
   },
   "dependencies": {
