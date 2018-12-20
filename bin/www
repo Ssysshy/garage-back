@@ -12,8 +12,7 @@ const http = require('http');
  * Get port from environment and store in Express.
  */
 
-const port = process.env.npm_lifecycle_event === 'start' ? normalizePort(process.env.npm_package_port_start) : normalizePort(process.env.npm_package_port_dev);
-console.log(port);
+const port = normalizePort(process.env.PORT)
 app.set('port', port);
 
 /**

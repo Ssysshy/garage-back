@@ -2,13 +2,11 @@
   "name": "garage-back",
   "version": "0.0.0",
   "private": true,
-  "port": {
-    "dev": "3000",
-    "start": "8080"
-  },
   "scripts": {
-    "dev": "babel-node ./bin/www --presets env,stage-2",
-    "start": "babel-node ./bin/www --presets env,stage-2"
+    "dev": "cross-env NODE_ENV=development PORT=3000 babel-node ./bin/www --presets env,stage-2",
+    "start": "cross-env NODE_ENV=production PORT=8080 babel-node ./bin/www --presets env,stage-2",
+    "kill:dev": "kill -9 $(lsof -i:3000 |grep 'node'|awk '{print $2}')",
+    "kill:prod": "kill -9 $(lsof -i:8080 |grep 'node'|awk '{print $2}')"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -26,12 +24,14 @@
     "mongoose-paginate": "^5.0.3",
     "morgan": "~1.9.0",
     "multer": "^1.3.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "cross-env": "^5.2.0"
   },
   "devDependencies": {
     "async": "^2.5.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1"
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.2.0"
   }
 }
