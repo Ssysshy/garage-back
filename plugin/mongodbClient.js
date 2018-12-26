@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
-const mongodbConfig = require('config').get('mongodb');
-
+let mongodbConfig = null;
 mongoose.Promise = global.Promise;
+
+/**
+ * 根据开发环境调取不同的数据库配置
+ */
+if (process.env.NODE_ENV === 'development') {
+  mongodbConfig = require('config').get('mongodbLocal');
+} else {
+  mongodbConfig = require('config').get('mongodb');
+}
 
 /**
  * 配置 MongoDb options
@@ -14,8 +22,10 @@ function getMongoOptions() {
     keepAlive: 120,
     authSource: 'admin'
   };
-  options.user = mongodbConfig.get('user');
-  options.pass = mongodbConfig.get('pwd');
+  if (process.env.NODE_ENV !== 'development') {
+    options.user = mongodbConfig.get('user');
+    options.pass = mongodbConfig.get('pwd');
+  }
   if (mongodbConfig.get('replicaSet').get('name')) options.replicaSet = mongodbConfig.get('replicaSet').get('name');
   return options;
 }
@@ -39,7 +49,6 @@ function getMongoUri() {
     mongoUri += `${mongodbConfig.get('host')}:${mongodbConfig.get('port')}`;
   }
   mongoUri += `/${dbName}`;
-
   return mongoUri;
 }
 
@@ -47,6 +56,7 @@ function getMongoUri() {
  * 创建 Mongo 连接，内部维护了一个连接池，全局共享
  */
 let mongoClient = mongoose.connect(getMongoUri(), getMongoOptions());
+
 
 /**
  * 关闭 Mongo 连接

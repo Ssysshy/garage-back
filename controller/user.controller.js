@@ -12,23 +12,22 @@ exports.create = function (req, res, next) {
 }
 
 exports.get = function (req, res, next) {
-  var id = req.params.id;
+  const id = req.params.id;
   DataModel.findById(id, function (err, data) {
     res.json(data);
   })
 }
 
 exports.checklogin = function (req, res, next) {
-  var name = req.body.name;
-  var password = req.body.password;
-  var data = {name: name, password: password};
+  const name = req.body.name;
+  const pwd = req.body.pwd;
+  const data = { name: name, pwd: pwd };
   DataModel.find(data, function (err, data) {
     if (data.length > 0) {
       res.json(data);
     } else {
       res.json([{'msg': '用户名或密码错误', 'status': 404, name: ''}]);
     }
-    ;
   })
 }
 
@@ -55,12 +54,12 @@ exports.remove = function (req, res, next) {
 };
 
 exports.list = function (req, res, next) {
-  var page = (req.body.page) ? req.body.page : 1;
-  var rows = (req.body.rows) ? req.body.rows : 10;
+  const page = (req.body.page) ? req.body.page : 1;
+  const rows = (req.body.rows) ? req.body.rows : 10;
 
-  var queryCondition = {};
+  let queryCondition = {};
   if (req.body.name && req.body.name.trim().length > 0) {
-    var name = req.body.name;
+    const name = req.body.name;
 
     queryCondition = {
       'name': new RegExp(name, 'i')
@@ -78,7 +77,7 @@ exports.list = function (req, res, next) {
 };
 
 exports.deletes = function (req, res, next) {
-  var ids = req.body.ids;
+  const ids = req.body.ids;
   if (ids.length > 0) {
     DataModel.remove({_id: {$in: ids.split(',')}}).then(function (data) {
       res.json({"msg": "delete success", "status": 200});
