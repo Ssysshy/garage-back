@@ -19,7 +19,7 @@
     "file-stream-rotator": "^0.4.1",
     "http-errors": "~1.6.2",
     "moment": "^2.19.2",
-    "mongoose": "^4.11.10",
+    "mongoose": "^5.7.5",
     "mongoose-materialized": "^0.2.0",
     "mongoose-paginate": "^5.0.3",
     "morgan": "~1.9.0",
